@@ -3,3 +3,8 @@ python-docx
 pdfplumber
 requests
 ollama
+json
+
+transformers 
+sentencepiece
+torch

@@ -3,13 +3,16 @@ import os
 from utils.extract_text import extract_text_from_file
 import time
 from utils.llama_prompt import generate_evaluation
+from utils.summarizer import summarize_text
+
+
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-def shorten_text(text, max_chars=2000):
+def shorten_text(text, max_chars=1600):
     return text[:max_chars]
 
 
@@ -42,8 +45,14 @@ def upload_files():
 
     print("Transcript text:", transcript_text[:100])  # Print first 100 characters for debugging
     # Generate evaluation email
-    print("generating mail..... \n Please wait.....\n ")
-    email_draft = generate_evaluation(transcript_text, test_text)
+    print("Generating mail... Please wait...\n⏳ Feeding into model...\n")
+
+    # email_draft = generate_evaluation(transcript_text, test_text)
+    summarized_transcript = summarize_text(transcript_text)
+    summarized_test = summarize_text(test_text)
+
+    email_draft = generate_evaluation(summarized_transcript, summarized_test)
+
     
     print("⏱️ Time taken:", time.time() - start)
 
