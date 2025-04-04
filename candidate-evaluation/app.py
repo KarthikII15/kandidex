@@ -21,6 +21,13 @@ def upload_files():
     start = time.time()
     transcript = request.files.get('transcript')
     test = request.files.get('test')
+    job_role = request.form.get('job_role', '')  # Default fallback
+    skills_input = request.form.get('skills_to_rate', '')
+
+    # If empty, fallback to default skills
+    skills_to_rate = [s.strip() for s in skills_input.split(',')] if skills_input else [
+    "Communication Skills", "Technical Knowledge", "Problem Solving"
+]
     
     print("Transcript received:", transcript is not None)
     print("Test received:", test is not None)
@@ -51,12 +58,13 @@ def upload_files():
     summarized_transcript = summarize_text(transcript_text)
     summarized_test = summarize_text(test_text)
     
+    
     print("Generating mail... Please wait...\n⏳ Feeding into model...\n")
 
-    email_draft = generate_evaluation(summarized_transcript, summarized_test)
+    email_draft = generate_evaluation(transcript_text, test_text, job_role, skills_to_rate)
 
-    
-    print("⏱️ Time taken:", time.time() - start)
+    print("Email draft generated successfully!")
+    print("Time taken for email generation:", time.time() - start)
 
     return jsonify({'email': email_draft})
 

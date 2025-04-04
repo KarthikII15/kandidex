@@ -1,23 +1,30 @@
 import requests
 import json
 
-def generate_evaluation(transcript, test):
+def generate_evaluation(transcript, test, job_role, skills_to_rate):
+    skills_prompt = ""
+    for skill in skills_to_rate:
+        skills_prompt += f"   - {skill} (Rate 1-5 + comment)\n"
+
     prompt = f"""
-Evaluate the candidate using the interview transcript and test content below.
+You are an AI evaluator assessing a candidate for the role of **{job_role}**.
 
-Transcript:
-{transcript}
+You have access to their interview transcript and problem-solving test. Based on these, please:
+1. Summarize the candidate's performance in 3-4 sentences.
+2. Evaluate and rate the following skills:
+{skills_prompt}
+3. Provide a final recommendation (Yes/No) to move to the next round with a short justification.
 
-Test:
-{test}
+Format everything as a professional email with markdown-style tables.
 
-Output an email containing:
-- Ratings (for relavent skills) [1–5]
-- Strengths & Weaknesses
-- Final Summary Verdict
-- Recommendation (Hire/No Hire)
-Format the output as a professional email to HR Team.
-"""
+Interview Transcript:
+    {transcript}
+
+    
+    Problem Solving Test Submission:
+
+    {test}
+    """
 
     response = requests.post(
         'http://localhost:11434/api/generate',
