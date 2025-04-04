@@ -12,7 +12,7 @@ Test:
 {test}
 
 Output an email containing:
-- Ratings (Communication, Technical, Problem Solving) [1–10]
+- Ratings (for relavent skills) [1–5]
 - Strengths & Weaknesses
 - Final Summary Verdict
 - Recommendation (Hire/No Hire)
@@ -21,7 +21,7 @@ Format the output as a professional email to HR Team.
 
     response = requests.post(
         'http://localhost:11434/api/generate',
-        json={"model": "llama3", "prompt": prompt, "stream": True},
+        json={"model": "llama3:8b", "prompt": prompt, "stream": True},
         stream=True
     )
 

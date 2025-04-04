@@ -45,11 +45,13 @@ def upload_files():
 
     print("Transcript text:", transcript_text[:100])  # Print first 100 characters for debugging
     # Generate evaluation email
-    print("Generating mail... Please wait...\n⏳ Feeding into model...\n")
+    print("Trying to summarize the context.... \n⏳ Please wait....\n")
 
     # email_draft = generate_evaluation(transcript_text, test_text)
     summarized_transcript = summarize_text(transcript_text)
     summarized_test = summarize_text(test_text)
+    
+    print("Generating mail... Please wait...\n⏳ Feeding into model...\n")
 
     email_draft = generate_evaluation(summarized_transcript, summarized_test)
 
