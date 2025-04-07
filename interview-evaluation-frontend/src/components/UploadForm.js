@@ -26,8 +26,8 @@ function UploadForm() {
     try {
       const response = await axios.post('http://127.0.0.1:5000/upload', formData);
       // 🛠 FIX: Use response.data directly instead of response.data.result
-      setEmailResult(response.data);
-      setEditableEmail(response.data);
+      setEmailResult(response.data.result);
+      setEditableEmail(response.data.result);
 
     } catch (error) {
       console.error('Error:', error);
@@ -56,7 +56,7 @@ function UploadForm() {
           <input type="text" value={role} onChange={(e) => setRole(e.target.value)} required />
 
           <label>Skills to Rate (comma-separated):</label>
-          <input type="text" value={skills} onChange={(e) => setSkills(e.target.value)} required />
+          <input type="text" value={skills} onChange={(e) => setSkills(e.target.value)} />
 
           <label>Upload Transcript:</label>
           <input type="file" accept=".txt,.pdf,.docx" onChange={(e) => setTranscriptFile(e.target.files[0])} required />

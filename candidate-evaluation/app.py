@@ -68,8 +68,8 @@ def upload_files():
     print("Email draft generated successfully!\n")
     print("Time taken for email generation:", time.time() - start)
 
-    # return jsonify({'result': email_draft})
-    return email_draft
+    return jsonify({'result': email_draft})
+    # return email_draft
 
 if __name__ == '__main__':
     app.run(debug=True)
