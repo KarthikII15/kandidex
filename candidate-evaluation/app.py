@@ -4,10 +4,12 @@ from utils.extract_text import extract_text_from_file
 import time
 from utils.llama_prompt import generate_evaluation
 from utils.summarizer import summarize_text
+from flask_cors import CORS
 
 
 
 app = Flask(__name__)
+CORS(app)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -61,12 +63,13 @@ def upload_files():
     
     print("Generating mail... Please wait...\n⏳ Feeding into model...\n")
 
-    email_draft = generate_evaluation(transcript_text, test_text, job_role, skills_to_rate)
+    email_draft = generate_evaluation(summarized_transcript, summarized_test, job_role, skills_to_rate)
 
-    print("Email draft generated successfully!")
+    print("Email draft generated successfully!\n")
     print("Time taken for email generation:", time.time() - start)
 
-    return jsonify({'email': email_draft})
+    # return jsonify({'result': email_draft})
+    return email_draft
 
 if __name__ == '__main__':
     app.run(debug=True)
